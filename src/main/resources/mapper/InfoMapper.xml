@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.repository.mapper.InfoMapper">
+    <insert id="add">
+        insert into info (content,out_time,read_status) values (#{content},#{outTime},{readStatus})
+    </insert>
+    <update id="read">
+        update from info set read_status="已读" where id=#{id}
+    </update>
+
+
+    <select id="selectList" resultType="com.example.repository.entity.Info">
+        select * from info
+        <where>
+            <if test="beforInTime!=null">and out_time <![CDATA[ >= ]]> #{beforInTime}</if>
+            <if test="afterInTime!=null">and out_time <![CDATA[ <= ]]> #{afterInTime}</if>
+        </where>
+    </select>
+</mapper>

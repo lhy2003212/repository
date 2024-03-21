@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.repository.mapper.AccountsMapper">
+
+
+    <insert id="add">
+        insert into accounts (goods_id,number,store_id,operate,time)
+        values (#{goodsId},#{number},#{storeId},#{operate},#{time})
+    </insert>
+
+    <select id="selectNumber" resultType="java.lang.Integer">
+        select sum(accounts.number) from accounts
+        <where>
+            <if test="goodsId!=null"> and goods_id=#{goodsId}</if>
+            <if test="storeId!=null"> and store_id=#{storeId}</if>
+        </where>
+    </select>
+
+    <select id="selectOutAccounts" resultType="com.example.repository.entity.Accounts">
+        select * from accounts where goods_id in
+        (select id from goods where name=#{goodsName} ) and time > #{date} and operate="入库"
+    </select>
+</mapper>
